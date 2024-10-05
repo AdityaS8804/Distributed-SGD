@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hogwild-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hogwild-master
+  template:
+    metadata:
+      labels:
+        app: hogwild-master
+    spec:
+      containers:
+      - name: master
+        image: hogwild-sgd:latest
+        env:
+        - name: ROLE
+          value: "master"
+        ports:
+        - containerPort: 5000

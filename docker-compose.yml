@@ -1,0 +1,32 @@
+
+version: '3.8'
+
+services:
+  master:
+    image: hogwild-sgd:latest
+    build:
+      context: .
+    ports:
+      - "5000:5000"  # Expose port 5000 for communication
+    environment:
+      - ROLE=master
+    networks:
+      - hogwild-net
+
+  worker:
+    image: hogwild-sgd:latest
+    build:
+      context: .
+    depends_on:
+      - master
+    environment:
+      - ROLE=worker
+      - MASTER_HOST=master  # The master node hostname
+    networks:
+      - hogwild-net
+    deploy:
+      replicas: 4  # Change this to scale the number of workers
+
+networks:
+  hogwild-net:
+    driver: bridge

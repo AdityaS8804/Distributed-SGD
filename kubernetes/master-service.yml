@@ -1,0 +1,12 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hogwild-master
+spec:
+  selector:
+    app: hogwild-master
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

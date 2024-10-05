@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hogwild-worker
+spec:
+  replicas: 3  # You can scale this up or down
+  selector:
+    matchLabels:
+      app: hogwild-worker
+  template:
+    metadata:
+      labels:
+        app: hogwild-worker
+    spec:
+      containers:
+      - name: worker
+        image: hogwild-sgd:latest
+        env:
+        - name: ROLE
+          value: "worker"
+        - name: MASTER_IP
+          value: "hogwild-master"  # Master service name in Kubernetes
+        - name: WORKER_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
